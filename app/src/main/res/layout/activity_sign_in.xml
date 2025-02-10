@@ -2,21 +2,66 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/loginLayout"
+    android:id="@+id/signInLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".view.activity.LoginActivity"
-    >
+    tools:context=".view.activity.SignInActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        >
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:elevation="5dp"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme">
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <ImageView
-        android:id="@+id/loginListifyImage"
+        android:id="@+id/signInListifyImage"
         android:layout_gravity="center"
-        android:layout_width="125dp"
-        android:layout_height="125dp"
-        android:layout_marginTop="125dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="15dp"
         app:srcCompat="@drawable/listify_logo_1"
         />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/nameInputLayoutFP"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="25dp"
+        app:boxBackgroundColor="@color/textFieldColor"
+        app:boxStrokeColor="@color/loginColor"
+        app:endIconMode="clear_text"
+        app:hintTextColor="@color/loginColor"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/nameInputText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter your name"
+            android:textSize="18sp"
+            android:inputType="textPersonName"
+            android:textColorHint="@color/textFieldStrokeColor" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -25,7 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="25dp"
         app:boxBackgroundColor="@color/textFieldColor"
         app:boxStrokeColor="@color/loginColor"
@@ -68,69 +113,64 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/forgotPasswordTextView"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/confirmPasswordInputLayoutFP"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="25dp"
-        android:text="Forgot Password?"
-        android:layout_gravity="end"
-        android:textSize="16dp"
-    />
+        app:boxBackgroundColor="@color/textFieldColor"
+        app:boxStrokeColor="@color/loginColor"
+        app:endIconMode="password_toggle"
+        app:hintTextColor="@color/loginColor"
+        >
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/confirmPasswordInputText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Confirm Password"
+            android:textSize="18sp"
+            android:inputType="textEmailAddress"
+            android:textColorHint="@color/textFieldStrokeColor" />
 
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/loginButton"
+        android:id="@+id/signInBtn"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginTop="25dp"
         android:layout_marginStart="25dp"
         android:layout_marginEnd="25dp"
         android:background="@drawable/custom_auth_btn"
-        android:text="Login"
+        android:text="Sign in"
         android:textColor="@color/white"
         android:textAllCaps="false"
         />
 
     <TextView
-        android:id="@+id/haveAccountTextView"
+        android:id="@+id/alreadyHaveAccountTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="75dp"
-        android:text="Don't have an account?"
+        android:text="Already have an account?"
         android:layout_gravity="center"
         android:textSize="16dp"
         />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/signInButton"
+        android:id="@+id/loginBtn"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginTop="25dp"
         android:layout_marginStart="25dp"
         android:layout_marginEnd="25dp"
         android:background="@drawable/custom_auth_sign_in_btn"
-        android:text="Sign in"
+        android:text="Login"
         android:textColor="@color/loginColor"
         android:textAllCaps="false"
         />
-
-
-<!--    <EditText-->
-<!--        android:id="@+id/editTextText"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="60dp"-->
-<!--        android:ems="10"-->
-<!--        android:layout_marginStart="25dp"-->
-<!--        android:layout_marginTop="50dp"-->
-<!--        android:layout_marginEnd="25dp"-->
-<!--        android:paddingStart="15dp"-->
-<!--        android:paddingEnd="25dp"-->
-<!--        android:textSize="18sp"-->
-<!--        android:background="@drawable/custom_auth_text_field"-->
-<!--        android:inputType="textPassword"-->
-<!--        android:hint="Enter your password" />-->
-
 
 </LinearLayout>

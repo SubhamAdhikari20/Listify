@@ -1,32 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/splashScreenLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.SplashScreenActivity">
+    android:orientation="vertical"
+    tools:context=".view.activity.SplashScreenActivity">
 
     <ImageView
         android:id="@+id/appImageView"
         android:layout_width="125dp"
         android:layout_height="125dp"
         android:layout_marginTop="300dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_gravity="center"
         app:srcCompat="@drawable/listify_logo_1" />
 
     <TextView
         android:id="@+id/appTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="35dp"
         android:layout_marginTop="5dp"
+        android:layout_gravity="center"
         android:text="Listify"
         android:textStyle="bold"
         android:textSize="22dp"
         app:layout_constraintStart_toStartOf="@+id/appImageView"
         app:layout_constraintTop_toBottomOf="@+id/appImageView" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/descTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="350dp"
+        android:text="Take notes and list your tasks"
+        android:layout_gravity="center"
+        android:textSize="18dp"
+        />
+
+
+</LinearLayout>

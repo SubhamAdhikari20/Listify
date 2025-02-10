@@ -1,4 +1,4 @@
-package com.example.listify.view
+package com.example.listify.view.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
