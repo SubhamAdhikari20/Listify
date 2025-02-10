@@ -2,4 +2,20 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="green">#00FF04</color>
+    <color name="hintColor">#A49D9D</color>
+    <color name="textFieldColor">#F8F4F4</color>
+    <color name="textHintFieldStrokeColor">#5BD000</color>
+    <color name="textFieldStrokeColor">#B2ACAC</color>
+    <color name="hintStrokeColor">#5BD000</color>
+    <color name="createAccountColor">#00FF04</color>
+    <color name="helperTextColor">#EF1D0A</color>
+    <color name="prefixTextColor">#161BD7</color>
+    <color name="radioButtonGroupBGColor">#C6C2C2</color>
+    <color name="callbackgroundcolor">#A3C598</color>
+    <color name="postBtnTextColor">#A59999</color>
+    <color name="communityPost">#FFF1F1</color>
+    <color name="loginColor">#103AD4</color>
+
 </resources>
