@@ -41,10 +41,10 @@ class SignUpActivity : AppCompatActivity() {
             val password = binding.passwordInputText.text.toString()
             val confirmPassword = binding.confirmPasswordInputText.text.toString()
 
-            if (fullName != "" && email != "" && password != "" && confirmPassword != ""){
+            if (fullName.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && confirmPassword.isNotEmpty()){
                 if (password == confirmPassword){
                     userViewModel.signUp(email, password){
-                            success, message, userId->
+                        success, message, userId->
                         if(success) {
                             val userModel = UserModel(userId, fullName, email, password)
                             addUser(userModel)
@@ -77,8 +77,6 @@ class SignUpActivity : AppCompatActivity() {
                     Toast.LENGTH_LONG
                 ).show()
             }
-
-
         }
 
         binding.loginBtn.setOnClickListener {
@@ -99,8 +97,9 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun addUser(userModel: UserModel){
         userViewModel.addUserToDatabase(userModel.userId, userModel){
-                success, message ->
+            success, message ->
             if (success){
+                loadingUtils.dismiss()
                 Toast.makeText(
                     this@SignUpActivity,
                     "Registration Successful",
@@ -108,13 +107,13 @@ class SignUpActivity : AppCompatActivity() {
                 ).show()
             }
             else{
+                loadingUtils.dismiss()
                 Toast.makeText(
                     this@SignUpActivity,
                     message,
                     Toast.LENGTH_LONG
                 ).show()
             }
-            loadingUtils.dismiss()
         }
     }
 
