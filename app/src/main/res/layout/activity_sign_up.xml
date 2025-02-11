@@ -2,11 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/signInLayout"
+    android:id="@+id/signUpLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".view.activity.SignInActivity">
+    tools:context=".view.activity.SignUpActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -30,7 +30,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <ImageView
-        android:id="@+id/signInListifyImage"
+        android:id="@+id/signUpListifyImage"
         android:layout_gravity="center"
         android:layout_width="75dp"
         android:layout_height="75dp"
@@ -108,7 +108,7 @@
             android:layout_height="wrap_content"
             android:hint="Enter your password"
             android:textSize="18sp"
-            android:inputType="textEmailAddress"
+            android:inputType="textPassword"
             android:textColorHint="@color/textFieldStrokeColor" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -132,20 +132,20 @@
             android:layout_height="wrap_content"
             android:hint="Confirm Password"
             android:textSize="18sp"
-            android:inputType="textEmailAddress"
+            android:inputType="textPassword"
             android:textColorHint="@color/textFieldStrokeColor" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/signInBtn"
+        android:id="@+id/signUpBtn"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginTop="25dp"
         android:layout_marginStart="25dp"
         android:layout_marginEnd="25dp"
         android:background="@drawable/custom_auth_btn"
-        android:text="Sign in"
+        android:text="Sign Up"
         android:textColor="@color/white"
         android:textAllCaps="false"
         />
