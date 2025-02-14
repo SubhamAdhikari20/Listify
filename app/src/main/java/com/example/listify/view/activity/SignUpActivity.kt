@@ -46,7 +46,7 @@ class SignUpActivity : AppCompatActivity() {
                     userViewModel.signUp(email, password){
                         success, message, userId->
                         if(success) {
-                            val userModel = UserModel(userId, fullName, email, password)
+                            val userModel = UserModel(userId = userId, fullName = fullName, email = email, password = password)
                             addUser(userModel)
                         }
                         else {
