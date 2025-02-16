@@ -35,24 +35,24 @@ class EditProfileDetailsActivity : AppCompatActivity() {
         val userId = intent.getStringExtra("userId") ?: ""
 
         binding.profileDetailTitleTexView.text = fieldType
+        binding.profileDetailEditTextField.hint = fieldType
 
-        if (binding.profileDetailTitleTexView.text.toString().lowercase() == "name"){
+        if (binding.profileDetailEditTextField.hint.toString().lowercase() == "name"){
             binding.profileDetailEditTextField.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PERSON_NAME
         }
-        else if (binding.profileDetailTitleTexView.text.toString().lowercase() == "email"){
+        else if (binding.profileDetailEditTextField.hint.toString().lowercase() == "email"){
             binding.profileDetailEditTextField.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
         }
-        else if (binding.profileDetailTitleTexView.text.toString().lowercase() == "password"){
+        else if (binding.profileDetailEditTextField.hint.toString().lowercase() == "password"){
             binding.profileDetailEditTextField.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
         }
-        else if (binding.profileDetailTitleTexView.text.toString().lowercase() == "contact"){
+        else if (binding.profileDetailEditTextField.hint.toString().lowercase() == "contact"){
             binding.profileDetailEditTextField.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_CLASS_PHONE
         }
         else{
             return
         }
 
-        binding.profileDetailEditTextField.hint = fieldType
         binding.profileDetailEditTextField.setText(fieldValue)
 
         val userRepo = UserRepositoryImpl()
