@@ -52,11 +52,6 @@ class DashboardActivity : AppCompatActivity() {
                 tabs, position -> tabs.icon = resources.getDrawable(icons[position], null)
         }.attach()
 
-        binding.floatingActionButton.setOnClickListener {
-            val intent = Intent(this, AddNoteActivity::class.java)
-            startActivity(intent)
-        }
-
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
