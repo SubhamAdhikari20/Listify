@@ -1,5 +1,7 @@
 package com.example.listify.viewmodel
 
+import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.listify.model.UserModel
@@ -102,6 +104,22 @@ class UserViewModel(private val userRepo: UserRepository) {
         callback: (Boolean, String) -> Unit
     ){
         userRepo.editProfile(userId, data, callback)
+    }
+
+    fun uploadImage(
+        userId: String,
+        data: MutableMap<String, Any>,
+        callback: (Boolean, String) -> Unit
+    ){
+        userRepo.uploadImage(userId, data, callback)
+    }
+
+    fun returnImageAsString(
+        context: Context,
+        imageUri: Uri,
+        callback: (String?) -> Unit
+    ) {
+        userRepo.returnImageAsString(context, imageUri, callback)
     }
 
     fun clearUserData() {

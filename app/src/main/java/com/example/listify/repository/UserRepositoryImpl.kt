@@ -1,6 +1,14 @@
 package com.example.listify.repository
 
+import android.content.Context
+import android.database.Cursor
+import android.net.Uri
+import android.os.Handler
+import android.os.Looper
+import android.provider.OpenableColumns
 import android.util.Log
+import com.cloudinary.Cloudinary
+import com.cloudinary.utils.ObjectUtils
 import com.example.listify.model.UserModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -8,6 +16,9 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.io.File
+import java.io.InputStream
+import java.util.concurrent.Executors
 
 class UserRepositoryImpl : UserRepository {
     private var auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -167,11 +178,101 @@ class UserRepositoryImpl : UserRepository {
     ) {
         reference.child(userId).updateChildren(data).addOnCompleteListener {
             if (it.isSuccessful){
-                callback(true, "Profile edited")
+                callback(true, "Profile updated successfully")
             }
             else{
                 callback(false, it.exception?.message.toString())
             }
         }
     }
+
+    override fun uploadImage(
+        userId: String,
+        data: MutableMap<String, Any>,
+        callback: (Boolean, String) -> Unit
+    ) {
+        reference.child(userId).updateChildren(data).addOnCompleteListener {
+            if (it.isSuccessful){
+                callback(true, "Profile Picture uploaded")
+            }
+            else{
+                callback(false, it.exception?.message.toString())
+            }
+        }
+    }
+
+    private val cloudinary = Cloudinary(
+        mapOf(
+            "cloud_name" to "dd6mrii30",
+            "api_key" to "515234253369976",
+            "api_secret" to "xPCyIe3O10lYncDzKEh9B6TINRg"
+        )
+    )
+
+    override fun returnImageAsString(
+        context: Context,
+        imageUri: Uri,
+        callback: (String?) -> Unit
+    ) {
+        val executor = Executors.newSingleThreadExecutor()
+        val handler = Handler(Looper.getMainLooper())
+
+        executor.execute {
+            try {
+                val file = FileUtil.from(context, imageUri)
+                val response = cloudinary.uploader().upload(file, ObjectUtils.emptyMap())
+                val secureUrl = response["secure_url"]?.toString()
+
+                handler.post {
+                    file?.delete() // Clean up temp file
+                    callback(secureUrl)
+                }
+            } catch (e: Exception) {
+                handler.post {
+                    Log.e("Cloudinary", "Upload failed", e)
+                    callback(null)
+                }
+            }
+        }
+    }
+
+    object FileUtil {
+        fun from(context: Context, uri: Uri): File? {
+            val contentResolver = context.contentResolver
+            val fileExtension = getFileExtension(context, uri)
+
+            return try {
+                val tempFile = File.createTempFile("upload_", ".$fileExtension", context.cacheDir)
+                tempFile.outputStream().use { output ->
+                    contentResolver.openInputStream(uri)?.use { input ->
+                        input.copyTo(output)
+                    }
+                }
+                tempFile
+            } catch (e: Exception) {
+                null
+            }
+        }
+
+        private fun getFileExtension(context: Context, uri: Uri): String {
+            return context.contentResolver.getType(uri)?.substringAfterLast("/") ?: "jpg"
+        }
+    }
+
+//    override fun getFileNameFromUri(
+//        context: Context, uri: Uri
+//    ): String? {
+//        var fileName: String? = null
+//        val cursor: Cursor? = context.contentResolver.query(uri, null, null, null, null)
+//        cursor?.use {
+//            if (it.moveToFirst()) {
+//                val nameIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+//                if (nameIndex != -1) {
+//                    fileName = it.getString(nameIndex)
+//                }
+//            }
+//        }
+//        return fileName
+//    }
+
 }

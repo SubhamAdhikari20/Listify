@@ -11,11 +11,13 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.listify.R
 import com.example.listify.databinding.ActivityEditProfileDetailsBinding
 import com.example.listify.repository.UserRepositoryImpl
+import com.example.listify.utils.LoadingUtils
 import com.example.listify.viewmodel.UserViewModel
 
 class EditProfileDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditProfileDetailsBinding
     private lateinit var userViewModel: UserViewModel
+    private lateinit var loadingUtils: LoadingUtils
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +31,7 @@ class EditProfileDetailsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.back_arrow)
 
+        loadingUtils = LoadingUtils(this@EditProfileDetailsActivity)
         // Retrieve passed values
         val fieldType = intent.getStringExtra("FIELD_TYPE") ?: ""
         val fieldValue = intent.getStringExtra("FIELD_VALUE") ?: ""
@@ -60,6 +63,7 @@ class EditProfileDetailsActivity : AppCompatActivity() {
         userViewModel.clearUserData()
 
         binding.profileDetailsSaveChangesButton.setOnClickListener {
+            loadingUtils.show()
             val updatedValue = binding.profileDetailEditTextField.text.toString()
             val mappedFieldType = mapFieldTypeToModel(fieldType)
 
@@ -74,14 +78,16 @@ class EditProfileDetailsActivity : AppCompatActivity() {
                     userViewModel.editProfile(userId, data) {
                         isSuccess, message ->
                         if (isSuccess) {
+                            loadingUtils.dismiss()
                             Toast.makeText(
                                 this,
-                                "Profile updated successfully",
+                                message,
                                 Toast.LENGTH_SHORT
                             ).show()
                             finish()
                         }
                         else {
+                            loadingUtils.dismiss()
                             Toast.makeText(
                                 this,
                                 "Failed to update profile: $message",
@@ -91,12 +97,21 @@ class EditProfileDetailsActivity : AppCompatActivity() {
                     }
                 }
                 else {
+                    loadingUtils.dismiss()
                     Toast.makeText(
                         this,
                         "Please enter a value for $fieldType",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+            }
+            else{
+                loadingUtils.dismiss()
+                Toast.makeText(
+                    this,
+                    "Please, fill the detail",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
 
         }

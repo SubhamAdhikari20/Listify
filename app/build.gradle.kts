@@ -48,7 +48,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -57,6 +56,9 @@ dependencies {
     implementation (libs.circleimageview)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.database)
+    implementation (libs.cloudinary.android)
+    implementation (libs.glide)
+    implementation (libs.picasso)
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
     testImplementation(libs.junit)

@@ -46,7 +46,7 @@ class SignUpActivity : AppCompatActivity() {
                     userViewModel.signUp(email, password){
                         success, message, userId->
                         if(success) {
-                            val userModel = UserModel(userId = userId, fullName = fullName, email = email, password = password)
+                            val userModel = UserModel(userId = userId, fullName = fullName, email = email, password = password, profilePicture = "https://res.cloudinary.com/dd6mrii30/image/upload/v1740941813/profile-picture_jopwcf.png")
                             addUser(userModel)
                         }
                         else {

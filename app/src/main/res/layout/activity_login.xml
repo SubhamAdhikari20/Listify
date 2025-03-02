@@ -14,7 +14,7 @@
         android:layout_gravity="center"
         android:layout_width="125dp"
         android:layout_height="125dp"
-        android:layout_marginTop="125dp"
+        android:layout_marginTop="75dp"
         app:srcCompat="@drawable/listify_logo_1"
         />
 
