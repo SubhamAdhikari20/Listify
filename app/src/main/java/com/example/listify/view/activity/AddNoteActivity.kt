@@ -1,6 +1,7 @@
 package com.example.listify.view.activity
 
 import android.os.Bundle
+import android.view.Menu
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -19,7 +20,7 @@ class AddNoteActivity : AppCompatActivity() {
     private lateinit var noteViewModel: NoteViewModel
     private lateinit var loadingUtils: LoadingUtils
     private lateinit var main : ConstraintLayout
-    var userId = ""
+//    var userId : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,13 +38,26 @@ class AddNoteActivity : AppCompatActivity() {
         val noteRepo = NoteRepositoryImpl()
         noteViewModel = NoteViewModel(noteRepo)
 
-        userId = intent.getStringExtra("userId") ?: ""
+        var noteId = intent.getStringExtra("noteId") ?: ""
+        var userId = intent.getStringExtra("userId") ?: ""
+        var noteTitle = intent.getStringExtra("noteTitle") ?: ""
+        var noteDesc = intent.getStringExtra("noteDesc") ?: ""
+//        var noteTime = intent.getStringExtra("noteTime") ?: ""
+
+        binding.titleNoteTextField.setText(noteTitle)
+        binding.descNoteTextField.setText(noteDesc)
+
 
         binding.toolbar.setOnMenuItemClickListener {
             menuItem ->
             when (menuItem.itemId) {
                 R.id.addNoteOption -> {
-                    addNote()
+                    if (noteId.isEmpty()){
+                        addNote(userId)
+                    }
+                    else{
+                        updateNote(noteId)
+                    }
                     true
                 }
                 else -> false
@@ -51,7 +65,12 @@ class AddNoteActivity : AppCompatActivity() {
         }
 
         binding.floatingActionButton.setOnClickListener {
-            addNote()
+            if (noteId.isEmpty()){
+                addNote(userId)
+            }
+            else{
+                updateNote(noteId)
+            }
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.addNoteLayout)) { v, insets ->
@@ -66,7 +85,12 @@ class AddNoteActivity : AppCompatActivity() {
         return true
     }
 
-    private fun addNote(){
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.add_note_menu_toolbar, menu)
+        return true
+    }
+
+    private fun addNote(userId: String){
         loadingUtils.show()
         var noteTitle = binding.titleNoteTextField.text.toString()
         var noteDesc = binding.descNoteTextField.text.toString()
@@ -104,5 +128,40 @@ class AddNoteActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun updateNote(noteId: String){
+        loadingUtils.show()
+        var noteTitle = binding.titleNoteTextField.text.toString()
+        var noteDesc = binding.descNoteTextField.text.toString()
+        var noteTime = System.currentTimeMillis()
+
+        var updatedData = mutableMapOf<String, Any>()
+        updatedData["noteTitle"] = noteTitle
+        updatedData["noteDesc"] = noteDesc
+        updatedData["noteTime"] = noteTime
+
+        noteViewModel.updateNote(noteId, updatedData){
+            success, message ->
+            if (success){
+                Toast.makeText(
+                    this@AddNoteActivity,
+                    message,
+                    Toast.LENGTH_LONG
+                ).show()
+                finish()
+                loadingUtils.dismiss()
+            }
+            else{
+                Toast.makeText(
+                    this@AddNoteActivity,
+                    message,
+                    Toast.LENGTH_LONG
+                ).show()
+                loadingUtils.dismiss()
+            }
+        }
+
+    }
+
 
 }

@@ -32,6 +32,11 @@ interface UserRepository {
         callback: (Boolean, String) -> Unit
     )
 
+    fun deleteAccount(
+        userId: String,
+        callback: (Boolean, String) -> Unit
+    )
+
     // Authentication Database
     fun getCurrentUser() : FirebaseUser?
 

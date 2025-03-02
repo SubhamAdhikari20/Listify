@@ -45,6 +45,13 @@ class UserViewModel(private val userRepo: UserRepository) {
         userRepo.logout(callback)
     }
 
+    fun deleteAccount(
+        userId: String,
+        callback: (Boolean, String) -> Unit
+    ){
+        userRepo.deleteAccount(userId, callback)
+    }
+
     fun getCurrentUser() : FirebaseUser?{
         return userRepo.getCurrentUser()
     }

@@ -2,9 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-
     <color name="green">#00FF04</color>
     <color name="hintColor">#A49D9D</color>
+    <color name="timeColor">#4B4848</color>
     <color name="textFieldColor">#F8F4F4</color>
     <color name="textHintFieldStrokeColor">#5BD000</color>
     <color name="textFieldStrokeColor">#B2ACAC</color>
@@ -17,5 +17,15 @@
     <color name="postBtnTextColor">#A59999</color>
     <color name="communityPost">#FFF1F1</color>
     <color name="loginColor">#103AD4</color>
+    <color name="logoutBtnBgColor">#81C235</color>
+    <color name="deleteBtnBgColor">#EF1D0A</color>
+
+    <color name="noteColor1">#87EF34</color>
+    <color name="noteColor2">#ED6E63</color>
+    <color name="noteColor3">#50E1E4</color>
+    <color name="noteColor4">#7AAE7A</color>
+    <color name="noteColor5">#BBC0BA</color>
+    <color name="noteColor6">#F455F4</color>
+    <color name="noteColor7">#F1E171</color>
 
 </resources>

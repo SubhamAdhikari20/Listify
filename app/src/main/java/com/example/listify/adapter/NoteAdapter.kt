@@ -1,25 +1,39 @@
 package com.example.listify.adapter
 
 import android.content.Context
+import android.provider.ContactsContract.CommonDataKinds.Note
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.listify.R
 import com.example.listify.model.NoteModel
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import kotlin.random.Random
 
 class NoteAdapter(
     var context: Context,
-    private var data: ArrayList<NoteModel>
+    private var noteModelList: ArrayList<NoteModel>,
+    var onItemClick: (NoteModel) -> Unit,
+    var onItemLongClick: (NoteModel) -> Unit
 ) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>()  {
     inner class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         var noteTitle : TextView = itemView.findViewById(R.id.titleNoteTextView)
         var noteDesc : TextView = itemView.findViewById(R.id.descNoteTextView)
         var noteTime : TextView = itemView.findViewById(R.id.timeNoteTextView)
+        var noteCard : CardView = itemView.findViewById(R.id.noteCard)
 //        val loading : ProgressBar = itemView.findViewById(R.id.progressBarProduct)
     }
+
+//    interface NotesClickListener{
+//        fun onItemClick(note: NoteModel)
+//        fun onItemLongClick(note: NoteModel, cardView: CardView)
+//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val itemView : View = LayoutInflater.from(context).inflate(R.layout.sample_note_card_design, parent, false)
@@ -27,24 +41,61 @@ class NoteAdapter(
     }
 
     override fun getItemCount(): Int {
-        return data.size
+        return noteModelList.size
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
-        // Feed the data from database
-        holder.noteTitle.text = data[position].noteTitle
-        holder.noteDesc.text = data[position].noteDesc.toString()
-        holder.noteTime.text = data[position].noteDesc
+        // Feed the noteModelList from noteModelListbase
+        val note = noteModelList[position]
+        holder.noteTitle.text = note.noteTitle
+        holder.noteDesc.text = note.noteDesc.toString()
+        holder.noteTime.text = note.noteTime?.let {
+            Date(
+                it
+            )
+        }?.let { SimpleDateFormat("EEE, dd-MMMM-yyyy, hh:mm a", Locale.getDefault()).format(it) }
+
+        // Set click listener
+        holder.itemView.setOnClickListener {
+            onItemClick(note)
+        }
+
+        holder.itemView.setOnLongClickListener {
+            onItemLongClick(note)
+            true
+        }
+
+        holder.noteCard.setCardBackgroundColor(holder.itemView.resources.getColor(randomCardColors(), null))
+    }
+
+    fun setNotesFilteredList(noteModelList: ArrayList<NoteModel>){
+        this.noteModelList = noteModelList
+        notifyDataSetChanged()
     }
 
     fun updateData(products: ArrayList<NoteModel>){
-        data.clear()
-        data.addAll(products)
+        noteModelList.clear()
+        noteModelList.addAll(products)
         notifyDataSetChanged()
     }
 
     // Swipe to delete -> when swiped the noteId is return through index
-    fun getProductId(position: Int):String{
-        return data[position].noteId
+    fun getNoteId(position: Int):String{
+        return noteModelList[position].noteId
+    }
+
+    fun randomCardColors(): Int{
+        val colorList = ArrayList<Int>()
+        colorList.add(R.color.noteColor1)
+        colorList.add(R.color.noteColor2)
+        colorList.add(R.color.noteColor3)
+        colorList.add(R.color.noteColor4)
+        colorList.add(R.color.noteColor5)
+        colorList.add(R.color.noteColor6)
+        colorList.add(R.color.noteColor7)
+
+        val seed = System.currentTimeMillis().toInt()
+        val randomIndex = Random(seed).nextInt(colorList.size)
+        return colorList[randomIndex]
     }
 }

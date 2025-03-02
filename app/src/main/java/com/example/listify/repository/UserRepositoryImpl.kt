@@ -85,6 +85,32 @@ class UserRepositoryImpl : UserRepository {
         }
     }
 
+    override fun deleteAccount(
+        userId: String,
+        callback: (Boolean, String) -> Unit
+    ) {
+        val user = auth.currentUser
+        user?.delete()?.addOnCompleteListener { authTask ->
+            if (authTask.isSuccessful) {
+                // Delete from Realtime Database
+                reference.child(userId).removeValue()
+                    .addOnCompleteListener { dbTask ->
+                        if (dbTask.isSuccessful) {
+                            auth.signOut()
+                            callback(true, "Account deleted successfully")
+                        }
+                        else {
+                            callback(false, "Failed to delete user data: ${dbTask.exception?.message}")
+                        }
+                    }
+            } else {
+                callback(false, "Authentication deletion failed: ${authTask.exception?.message}")
+            }
+        } ?: run {
+            callback(false, "No authenticated user found")
+        }
+    }
+
     // Authentication Database
     override fun getCurrentUser(): FirebaseUser? {
         return auth.currentUser

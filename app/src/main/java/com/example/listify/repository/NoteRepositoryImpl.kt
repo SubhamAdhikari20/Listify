@@ -80,17 +80,22 @@ class NoteRepositoryImpl : NoteRepository {
         userId: String,
         callback: (ArrayList<NoteModel>?, Boolean, String) -> Unit
     ) {
-        reference.addValueEventListener(object: ValueEventListener{
+        reference.orderByChild("userId").equalTo(userId).addValueEventListener(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()){
                     var notes = arrayListOf<NoteModel>()
                     for(eachData in snapshot.children){
-                        var noteModel = eachData.getValue(NoteModel::class.java)
-
-                        if (noteModel != null) {
-                            if (noteModel.userId == userId){
-                                notes.add(noteModel)
+                        try {
+                            var noteModel = eachData.getValue(NoteModel::class.java)
+                            if (noteModel != null) {
+//                                if (noteModel.userId == userId) {
+                                    notes.add(noteModel)
+//                                }
                             }
+                        }
+                        catch (e: Exception) {
+                            Log.e("GetNotes", "Error parsing note: ${e.message}")
+                            callback(null, false, "${e.message}")
                         }
 
                     }

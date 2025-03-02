@@ -1,6 +1,8 @@
 package com.example.listify.view.activity
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -17,6 +19,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var userViewModel: UserViewModel
     private lateinit var loadingUtils: LoadingUtils
+    private lateinit var sharePreferences : SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,9 +28,19 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        loadingUtils = LoadingUtils(this)
+        loadingUtils = LoadingUtils(this@LoginActivity)
         val userRepo = UserRepositoryImpl()
         userViewModel = UserViewModel(userRepo)
+        sharePreferences = getSharedPreferences("user", Context.MODE_PRIVATE)
+
+        // Auto Login
+        val editor = sharePreferences
+        val savedEmail : String = editor.getString("email", null).toString()
+        val savedPassword : String = editor.getString("password", null).toString()
+
+        if (!savedEmail.isNullOrEmpty() && !savedPassword.isNullOrEmpty()) {
+            autoLogin(savedEmail, savedPassword)
+        }
 
         binding.loginButton.setOnClickListener {
             loadingUtils.show()
@@ -39,6 +52,26 @@ class LoginActivity : AppCompatActivity() {
                     success, message ->
                     if (success) {
                         loadingUtils.dismiss()
+
+                        if (binding.rememberMe.isChecked){
+                            val editor = sharePreferences.edit()
+                            editor.putString("email", email)
+                            editor.putString("password", password)
+                            editor.apply()
+
+                            val intent = Intent(
+                                this@LoginActivity, DashboardActivity::class.java
+                            )
+                            intent.putExtra("email", email)
+                            intent.putExtra("password", password)
+                            startActivity(intent)
+                            finish()
+                        }
+                        else {
+                            // Clear credentials if "Remember Me" is unchecked
+                            sharePreferences.edit().clear().apply()
+                        }
+
                         Toast.makeText(
                             this@LoginActivity,
                             message,
@@ -67,7 +100,6 @@ class LoginActivity : AppCompatActivity() {
                     Toast.LENGTH_LONG
                 ).show()
             }
-
         }
 
         binding.signInButton.setOnClickListener {
@@ -79,6 +111,26 @@ class LoginActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+    }
+
+    private fun autoLogin(email: String, password: String) {
+        loadingUtils.show()
+        userViewModel.login(email, password) { success, message ->
+            loadingUtils.dismiss()
+            if (success) {
+                startActivity(Intent(this@LoginActivity, DashboardActivity::class.java))
+                finish()
+            }
+            else {
+                // Clear invalid credentials
+                sharePreferences.edit().clear().apply()
+//                Toast.makeText(
+//                    this@LoginActivity,
+//                    "Auto-login failed: $message",
+//                    Toast.LENGTH_LONG
+//                ).show()
+            }
         }
     }
 

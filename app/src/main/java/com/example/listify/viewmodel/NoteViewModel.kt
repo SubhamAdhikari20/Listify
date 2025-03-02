@@ -65,8 +65,11 @@ class NoteViewModel(private val noteRepo: NoteRepository)  {
         _loadingAllNotes.value = true
         noteRepo.getAllNote(userId) { notes, success, message ->
             if (success) {
-                Log.d("checkpoint", "i am here")
-                _getAllnotes.value = notes
+                _getAllnotes.value = notes ?: ArrayList()
+                _loadingAllNotes.value = false
+            }
+            else{
+                _getAllnotes.value = ArrayList()
                 _loadingAllNotes.value = false
             }
         }
