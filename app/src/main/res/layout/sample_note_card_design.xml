@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Title"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:layout_marginBottom="5dp"
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:text="Note Desc"
                 android:textColor="@color/black"
-                android:textSize="17sp"
+                android:textSize="15sp"
                 android:layout_marginBottom="20dp"
                 />
 
@@ -49,6 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Time"
+                android:textSize="12sp"
                 android:textColor="@color/timeColor"
                 />
 
