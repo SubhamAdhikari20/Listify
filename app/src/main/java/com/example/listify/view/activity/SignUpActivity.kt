@@ -1,5 +1,6 @@
 package com.example.listify.view.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -105,6 +106,9 @@ class SignUpActivity : AppCompatActivity() {
                     "Registration Successful",
                     Toast.LENGTH_LONG
                 ).show()
+                val intent = Intent(this@SignUpActivity, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
             }
             else{
                 loadingUtils.dismiss()

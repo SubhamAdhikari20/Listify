@@ -4,22 +4,28 @@ import android.app.Activity
 import android.app.AlertDialog
 import com.example.listify.R
 
-class LoadingUtils(val activity: Activity) {
-    private lateinit var alertDialog: AlertDialog
+class LoadingUtils(private val activity: Activity) {
+    private var alertDialog: AlertDialog? = null  // Changed to nullable var
 
-    fun show(){
-        val dialogView = activity.layoutInflater.inflate(R.layout.loading_dialog, null)
+    fun show() {
+        activity.runOnUiThread {
+            // Dismiss existing dialog if showing
+            alertDialog?.dismiss()
 
-        val builder = AlertDialog.Builder(activity)
-        builder.setView(dialogView)
-        builder.setCancelable(false)
-        builder.setTitle("Please! wait")
+            val builder = AlertDialog.Builder(activity)
+                .setView(R.layout.loading_dialog)
+                .setCancelable(false)
 
-        alertDialog = builder.create()
-        alertDialog.show()
+            alertDialog = builder.create()
+            alertDialog?.setCanceledOnTouchOutside(false)
+            alertDialog?.show()
+        }
     }
 
-    fun dismiss(){
-        alertDialog.dismiss()
+    fun dismiss() {
+        activity.runOnUiThread {
+            alertDialog?.dismiss()  // Safe call with null check
+            alertDialog = null
+        }
     }
 }

@@ -20,12 +20,13 @@
     <color name="logoutBtnBgColor">#81C235</color>
     <color name="deleteBtnBgColor">#EF1D0A</color>
 
-    <color name="noteColor1">#87EF34</color>
-    <color name="noteColor2">#ED6E63</color>
-    <color name="noteColor3">#50E1E4</color>
-    <color name="noteColor4">#7AAE7A</color>
-    <color name="noteColor5">#BBC0BA</color>
-    <color name="noteColor6">#F455F4</color>
-    <color name="noteColor7">#E8DB36</color>
+    <color name="completedTaskColor">#989992</color>
+    <color name="Color1">#87EF34</color>
+    <color name="Color2">#ED6E63</color>
+    <color name="Color3">#50E1E4</color>
+    <color name="Color4">#7AAE7A</color>
+    <color name="Color5">#BBC0BA</color>
+    <color name="Color6">#F455F4</color>
+    <color name="Color7">#E8DB36</color>
 
 </resources>

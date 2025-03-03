@@ -45,7 +45,7 @@ class NoteAdapter(
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
-        // Feed the noteModelList from noteModelListbase
+        // Feed the noteModelList from noteModelListDatabase
         val note = noteModelList[position]
         holder.noteTitle.text = note.noteTitle
         holder.noteDesc.text = note.noteDesc.toString()
@@ -73,9 +73,9 @@ class NoteAdapter(
         notifyDataSetChanged()
     }
 
-    fun updateData(products: ArrayList<NoteModel>){
+    fun updateData(notes: ArrayList<NoteModel>){
         noteModelList.clear()
-        noteModelList.addAll(products)
+        noteModelList.addAll(notes)
         notifyDataSetChanged()
     }
 
@@ -86,13 +86,13 @@ class NoteAdapter(
 
     fun randomCardColors(): Int{
         val colorList = ArrayList<Int>()
-        colorList.add(R.color.noteColor1)
-        colorList.add(R.color.noteColor2)
-        colorList.add(R.color.noteColor3)
-        colorList.add(R.color.noteColor4)
-        colorList.add(R.color.noteColor5)
-        colorList.add(R.color.noteColor6)
-        colorList.add(R.color.noteColor7)
+        colorList.add(R.color.Color1)
+        colorList.add(R.color.Color2)
+        colorList.add(R.color.Color3)
+        colorList.add(R.color.Color4)
+        colorList.add(R.color.Color5)
+        colorList.add(R.color.Color6)
+        colorList.add(R.color.Color7)
 
         val seed = System.currentTimeMillis().toInt()
         val randomIndex = Random(seed).nextInt(colorList.size)

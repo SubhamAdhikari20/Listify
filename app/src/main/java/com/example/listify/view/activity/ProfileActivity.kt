@@ -283,7 +283,6 @@ class ProfileActivity : AppCompatActivity() {
                 }
             }
             .setNegativeButton("Cancel") { dialog, _ ->
-                loadingUtils.dismiss()
                 dialog.dismiss()
             }
             .show()
@@ -324,7 +323,6 @@ class ProfileActivity : AppCompatActivity() {
                 }
             }
             .setNegativeButton("Cancel") { dialog, _ ->
-                loadingUtils.dismiss()
                 dialog.dismiss()
             }
             .show()

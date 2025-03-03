@@ -19,6 +19,7 @@ import com.example.listify.databinding.FragmentNotesBinding
 import com.example.listify.model.NoteModel
 import com.example.listify.repository.NoteRepositoryImpl
 import com.example.listify.repository.UserRepositoryImpl
+import com.example.listify.utils.LoadingUtils
 import com.example.listify.view.activity.AddNoteActivity
 import com.example.listify.viewmodel.NoteViewModel
 import com.example.listify.viewmodel.UserViewModel
@@ -30,6 +31,7 @@ class NotesFragment : Fragment() {
     private lateinit var noteAdapter: NoteAdapter
     private lateinit var noteViewModel: NoteViewModel
     private lateinit var userViewModel: UserViewModel
+    private lateinit var loadingUtils: LoadingUtils
     private var noteModelList = ArrayList<NoteModel>()
 
     override fun onCreateView(
@@ -43,6 +45,7 @@ class NotesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        loadingUtils = LoadingUtils(requireActivity())
         val noteRepo = NoteRepositoryImpl()
         noteViewModel = NoteViewModel(noteRepo)
         val userRepo = UserRepositoryImpl()
@@ -133,9 +136,16 @@ class NotesFragment : Fragment() {
             .setMessage("Do you want to delete this note?")
             .setIcon(R.drawable.baseline_delete_25) // Add your delete icon
             .setPositiveButton("Delete") { dialog, _ ->
+                loadingUtils.show()
                 noteViewModel.deleteNote(note.noteId){
                     success, message ->
                     if (success){
+                        loadingUtils.dismiss()
+                        dialog.dismiss()
+                        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                    }
+                    else{
+                        loadingUtils.dismiss()
                         dialog.dismiss()
                         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                     }

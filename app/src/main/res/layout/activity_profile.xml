@@ -90,7 +90,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginEnd="150dp"
         android:background="@drawable/edit_profile_picture_custom_btn"
-        android:backgroundTint="@color/noteColor7"
+        android:backgroundTint="@color/Color7"
         android:drawableEnd="@drawable/baseline_upload_25"
         android:padding="5dp"
         android:text="Upload Image"
